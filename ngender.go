@@ -77,6 +77,8 @@ func LoadDataFromFile(path string) {
 	}
 }
 
+// 根据输入全名（姓+名，中间无空格）推测性别可能性
+// 如只输入名而没有姓直接使用 GuessGivenName()
 func Guess(input string) (string, float64) {
 	rLen := utf8.RuneCountInString(input)
 	if rLen < 2 {
@@ -93,13 +95,18 @@ func Guess(input string) (string, float64) {
 	}
 	givenName := string([]rune(input)[givenNameStartAt:])
 
-	for _, k := range givenName {
+	return GuessGivenName(givenName)
+}
+
+// 根据输入人名（不含姓）推测性别可能性
+func GuessGivenName(input string) (string, float64) {
+	for _, k := range input {
 		if k < 0x4e00 || k > 0x9fa0 {
 			return "unknown", 0
 		}
 	}
 
-	return guess(givenName)
+	return guess(input)
 }
 
 func guess(input string) (string, float64) {
