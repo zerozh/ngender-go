@@ -44,6 +44,11 @@ func TestGuessGivenName(t *testing.T) {
 
 	gender, probability = GuessGivenName("James")
 	assert.Equal(t, "unknown", gender)
+
+	gender1, probability1 := Guess("司马懿")
+	gender2, probability2 := GuessGivenName("懿")
+	assert.Equal(t, gender1, gender2)
+	assert.Equal(t, probability1, probability2)
 }
 
 func BenchmarkGuess(b *testing.B) {

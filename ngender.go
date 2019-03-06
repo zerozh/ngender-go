@@ -33,9 +33,19 @@ func init() {
 	}
 }
 
+// 加载词频文件，格式为 "字,男名使用次数,女名使用次数"，每行一条，如：
+// 伟,378757,51232
+// 强,229396,6049
+// 芳,30090,165416
+// 艳,27301,172376
+// 玉,126830,147213
+// 云,109814,100157
+// 词频文件应尽可能覆盖所有名中常见的字
 func LoadDataFromFile(path string) {
 	kvMapMu.Lock()
 	defer kvMapMu.Unlock()
+
+	kvMap = make(map[string]*kv)
 
 	file, err := os.Open(path)
 	if err != nil {
